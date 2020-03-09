@@ -7,7 +7,7 @@
    + backbone: ResNet50 + FPN
    + post process: soft nms
    + 基于[mmdetection](https://github.com/open-mmlab/mmdetection/), 不是最新版，大家可以自己升级
-   + res50 和se50 均可以达到线上testA 46-47 mAP, 集成下应该可以48-49
+   + res50 和se50 均可以达到线上testA 46-47 mAP, 经过[spytensor](https://github.com/spytensor)验证集成下可以48-49
 
 ## 代码环境及依赖
 
