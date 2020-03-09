@@ -7,6 +7,7 @@
    + backbone: ResNet50 + FPN
    + post process: soft nms
    + 基于[mmdetection](https://github.com/open-mmlab/mmdetection/), 不是最新版，大家可以自己升级
+   + res50 和se50 均可以达到线上testA 46-47 mAP, 集成下应该可以48-49
 
 ## 代码环境及依赖
 
@@ -59,8 +60,8 @@
 
 - **预训练模型下载**
   - 下载mmdetection官方开源的casacde-rcnn-r50-fpn-2x的COCO预训练模型[cascade_rcnn_r50_fpn_20e_20181123-db483a09.pth](https://open-mmlab.oss-cn-beijing.aliyuncs.com/mmdetection/models/cascade_rcnn_r50_fpn_20e_20181123-db483a09.pth)并放置于 data/pretrained 目录下
-
-
+  - senet50的预训练详见: [mmd-senet](https://github.com/zhengye1995/pretrained), 这里要特别感谢[jsonc
+](https://github.com/jsnoc) 大佬提供的预训练模型
 ## 依赖安装及编译
 
 
@@ -85,11 +86,19 @@
    - **训练**
 
 	1. 运行：
-
+        
+        r50:
+        
 		chmod +x tools/dist_train.sh
 
         ./tools/dist_train.sh configs/underwater/cas_r50/cascade_rcnn_r50_fpn_1x.py 4
+        
+        se50:
+        
+		chmod +x tools/dist_train.sh
 
+        ./tools/dist_train.sh configs/underwater/cas_se/cas_se50_12ep.py 4
+        
         (上面的4是我的gpu数量，请自行修改)
 
    	2. 训练过程文件及最终权重文件均保存在config文件中指定的workdir目录中
@@ -97,18 +106,30 @@
    - **预测**
 
     1. 运行:
+    
+        r50:
 
         chmod +x tools/dist_test.sh
 
         ./tools/dist_test.sh configs/underwater/cas_r50/cascade_rcnn_r50_fpn_1x.py workdirs/cascade_rcnn_r50_fpn_1x/latest.pth 4 --json_out results/cas_r50.json
 
         (上面的4是我的gpu数量，请自行修改)
+        
+        se50:
 
-    2. 预测结果文件cas_r50.bbox.json会保存在 /results 目录下
+        chmod +x tools/dist_test.sh
+
+        ./tools/dist_test.sh configs/underwater/cas_se/cas_se50_12ep.py workdirs/cas_se50_12ep/latest.pth 4 --json_out results/cas_se50.json
+
+        (上面的4是我的gpu数量，请自行修改)
+
+    2. 预测结果文件cas_r50.bbox.json 和 cas_se50.json 会保存在 /results 目录下
 
     3. 转化mmd预测结果为提交csv格式文件：
        
        python tools/post_process/json2submit.py --test_json cas_r50.bbox.json --submit_file cas_r50.csv
+       
+       python tools/post_process/json2submit.py --test_json cas_se50.bbox.json --submit_file cas_se50.csv
 
        最终符合官方要求格式的提交文件 cas_r50.csv 位于 submit目录下
     
