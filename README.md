@@ -25,7 +25,7 @@
 
 - **相应文件夹创建准备**
 
-  - 在code目录下新建data文件夹，或者依据自身情况建立软链接
+  - 在代码根目录下新建data文件夹，或者依据自身情况建立软链接
   - 进入data文件夹,创建文件夹:
   
      annotations
@@ -47,13 +47,11 @@
 
   - 官方提供的是VOC格式的xml类型label文件，个人习惯使用COCO格式用于训练，所以进行格式转换
   
-  - 使用 code/tools/data_process/xml2coco.py 将label文件转换为COCO格式，新的label文件 train.json 会保存在 data/fabric/annotations 目录下
+  - 使用 tools/data_process/xml2coco.py 将label文件转换为COCO格式，新的label文件 train.json 会保存在 data/fabric/annotations 目录下
 
-  - 为了方便利用mmd多进程测试（速度较快），我们对test数据也生成一个伪标签文件,运行 code/tools/data_process/generate_test_json.py 生成 testA.json, 伪标签文件会保存在data/train/annotations 目录下
+  - 为了方便利用mmd多进程测试（速度较快），我们对test数据也生成一个伪标签文件,运行 tools/data_process/generate_test_json.py 生成 testA.json, 伪标签文件会保存在data/train/annotations 目录下
 
   - 总体运行内容：
-
-    - cd code
 
     - python tools/data_process/xml2coco.py
 
@@ -86,8 +84,6 @@
     
    - **训练**
 
-    进入code目录
-
 	1. 运行：
 
 		chmod +x tools/dist_train.sh
@@ -100,8 +96,6 @@
 
    - **预测**
 
-    进入code目录
-
     1. 运行:
 
         chmod +x tools/dist_test.sh
@@ -110,13 +104,13 @@
 
         (上面的4是我的gpu数量，请自行修改)
 
-    2. 预测结果文件cas_r50.bbox.json会保存在 code/results 目录下
+    2. 预测结果文件cas_r50.bbox.json会保存在 /results 目录下
 
     3. 转化mmd预测结果为提交csv格式文件：
        
        python tools/post_process/json2submit.py --test_json cas_r50.bbox.json --submit_file cas_r50.csv
 
-       最终符合官方要求格式的提交文件 cas_r50.csv 位于 code/submit目录下
+       最终符合官方要求格式的提交文件 cas_r50.csv 位于 /submit目录下
     
 
 ## Contact
