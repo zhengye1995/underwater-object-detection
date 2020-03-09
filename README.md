@@ -110,7 +110,7 @@
        
        python tools/post_process/json2submit.py --test_json cas_r50.bbox.json --submit_file cas_r50.csv
 
-       最终符合官方要求格式的提交文件 cas_r50.csv 位于 /submit目录下
+       最终符合官方要求格式的提交文件 cas_r50.csv 位于 submit目录下
     
 
 ## Contact
