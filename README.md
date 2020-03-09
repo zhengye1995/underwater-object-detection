@@ -48,7 +48,7 @@
 
   - 官方提供的是VOC格式的xml类型label文件，个人习惯使用COCO格式用于训练，所以进行格式转换
   
-  - 使用 tools/data_process/xml2coco.py 将label文件转换为COCO格式，新的label文件 train.json 会保存在 data/fabric/annotations 目录下
+  - 使用 tools/data_process/xml2coco.py 将label文件转换为COCO格式，新的label文件 train.json 会保存在 data/train/annotations 目录下
 
   - 为了方便利用mmd多进程测试（速度较快），我们对test数据也生成一个伪标签文件,运行 tools/data_process/generate_test_json.py 生成 testA.json, 伪标签文件会保存在data/train/annotations 目录下
 
