@@ -2,13 +2,15 @@
 
 ## 比赛地址：[Kesci 水下目标检测](https://www.kesci.com/home/competition/5e535a612537a0002ca864ac)
 
+## Update 更新使用htc预训练的resnext101 64x4d 线上mAP为**48.7**
+
 ## 整体思路
    + detection algorithm: Cascade R-CNN 
    + backbone: ResNet50 + FPN
    + post process: soft nms
    + 基于[mmdetection](https://github.com/open-mmlab/mmdetection/), 不是最新版，大家可以自己升级
    + res50 和se50 均可以达到线上testA 46-47 mAP, 经过[spytensor](https://github.com/spytensor)验证集成下可以48-49
-
+   + resnext101 64x4d 48.7mAP
 ## 代码环境及依赖
 
 + OS: Ubuntu16.10
@@ -60,8 +62,9 @@
 
 - **预训练模型下载**
   - 下载mmdetection官方开源的casacde-rcnn-r50-fpn-2x的COCO预训练模型[cascade_rcnn_r50_fpn_20e_20181123-db483a09.pth](https://open-mmlab.oss-cn-beijing.aliyuncs.com/mmdetection/models/cascade_rcnn_r50_fpn_20e_20181123-db483a09.pth)并放置于 data/pretrained 目录下
-  - senet50的预训练详见: [mmd-senet](https://github.com/zhengye1995/pretrained), 这里要特别感谢[jsonc
-](https://github.com/jsnoc) 大佬提供的预训练模型
+  - senet50的预训练详见: [mmd-senet](https://github.com/zhengye1995/pretrained), 这里要特别感谢[jsonc](https://github.com/jsnoc) 大佬提供的预训练模型
+  - 下载mmdetection官方开源的htc的[resnext 64x4d 预训练模型](https://s3.ap-northeast-2.amazonaws.com/open-mmlab/mmdetection/models/htc/htc_dconv_c3-c5_mstrain_400_1400_x101_64x4d_fpn_20e_20190408-0e50669c.pth)
+
 ## 依赖安装及编译
 
 
@@ -99,6 +102,12 @@
 
         ./tools/dist_train.sh configs/underwater/cas_se/cas_se50_12ep.py 4
         
+        x101_64x4d (htc pretrained):
+        
+		chmod +x tools/dist_train.sh
+
+        ./tools/dist_train.sh configs/underwater/cas_x101/cascade_rcnn_x101_64x4d_fpn_1x.py 4
+        
         (上面的4是我的gpu数量，请自行修改)
 
    	2. 训练过程文件及最终权重文件均保存在config文件中指定的workdir目录中
@@ -122,16 +131,25 @@
         ./tools/dist_test.sh configs/underwater/cas_se/cas_se50_12ep.py workdirs/cas_se50_12ep/latest.pth 4 --json_out results/cas_se50.json
 
         (上面的4是我的gpu数量，请自行修改)
+        
+        x101_64x4d (htc pretrained):
 
-    2. 预测结果文件cas_r50.bbox.json 和 cas_se50.json 会保存在 /results 目录下
+        chmod +x tools/dist_test.sh
+
+        ./tools/dist_test.sh configs/underwater/cas_se/cascade_rcnn_x101_64x4d_fpn_1x.py workdirs/cas_x101_64x4d_fpn_htc_1x/latest.pth 4 --json_out results/cas_x101.json
+
+
+    2. 预测结果文件会保存在 /results 目录下
 
     3. 转化mmd预测结果为提交csv格式文件：
        
        python tools/post_process/json2submit.py --test_json cas_r50.bbox.json --submit_file cas_r50.csv
        
        python tools/post_process/json2submit.py --test_json cas_se50.bbox.json --submit_file cas_se50.csv
+       
+       python tools/post_process/json2submit.py --test_json cas_x101.bbox.json --submit_file cas_x101.csv
 
-       最终符合官方要求格式的提交文件 cas_r50.csv 和 cas_se50.csv 位于 submit目录下
+       最终符合官方要求格式的提交文件 cas_r50.csv, cas_se50.csv 和 cas_x101.csv 位于 submit目录下
     
 
 ## Contact
