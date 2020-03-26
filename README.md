@@ -136,7 +136,7 @@
 
         chmod +x tools/dist_test.sh
 
-        ./tools/dist_test.sh configs/underwater/cas_se/cascade_rcnn_x101_64x4d_fpn_1x.py workdirs/cas_x101_64x4d_fpn_htc_1x/latest.pth 4 --json_out results/cas_x101.json
+        ./tools/dist_test.sh configs/underwater/cas_x101/cascade_rcnn_x101_64x4d_fpn_1x.py workdirs/cas_x101_64x4d_fpn_htc_1x/latest.pth 4 --json_out results/cas_x101.json
 
 
     2. 预测结果文件会保存在 /results 目录下
