@@ -1,15 +1,38 @@
-# Kesci 水下目标检测算法赛  underwater object detection algorithm contest Baseline <font color=red>**A榜 mAP 46-47**</font><br /> 
+# Kesci 水下目标检测算法赛  underwater object detection algorithm contest Baseline <font color=red>**A榜 mAP 48.7**</font><br /> 
 
 ## 比赛地址：[Kesci 水下目标检测](https://www.kesci.com/home/competition/5e535a612537a0002ca864ac)
 
-## Update 更新使用htc预训练的resnext101 64x4d 线上mAP为**48.7**
+## Update 尝试过不work的内容：
 
++ 数据增强
+  + 翻转旋转
+  + 偏色校准
+  + 亮度、对比度增强
+  + 各种模糊平滑算子
+  + 去雾
+  + mixup
+  + 引入往年数据
++ 模型集成
+  + 直接nms
+  + 加权nms
+  + wbf
++ 训练采样
+  + 基于数据分布即domain采样
+  + OHEM
++ 模型部分
+  + DCN
+  + se154与x101 接近
++ 误差分析：从rpn很难收敛及OHEM掉分严重可以分析得出目前预测错误主要来源是：
+  + 高分的fp： 相当多一部分是标注漏标错标造成，例如训练集存在相邻帧图片同一目标前一帧标注，后一帧不标情况，例如对于较为模糊的目标是否标注也很不统一
+  + 低分的tp： 这一类主要集中在模糊目标上，模型整体对模糊目标预测的score较低，但是数据的标注对于模糊对象标准并不一致
+  + 漏检： 少数模糊小目标漏检
+## Update 更新使用htc预训练的resnext101 64x4d 线上mAP为**48.7**
 ## 整体思路
    + detection algorithm: Cascade R-CNN 
    + backbone: ResNet50 + FPN
    + post process: soft nms
    + 基于[mmdetection](https://github.com/open-mmlab/mmdetection/), 不是最新版，大家可以自己升级
-   + res50 和se50 均可以达到线上testA 46-47 mAP, 经过[spytensor](https://github.com/spytensor)验证集成下可以48-49
+   + res50 和se50 均可以达到线上testA 46-47 mAP, 经过[spytensor](https://github.com/spytensor)试验进行模型集成可以达到49+
    + resnext101 64x4d 48.7mAP
 ## 代码环境及依赖
 
