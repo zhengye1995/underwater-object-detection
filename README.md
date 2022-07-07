@@ -2,6 +2,8 @@
 
 ## 比赛地址：[Kesci 水下目标检测](https://www.kesci.com/home/competition/5e535a612537a0002ca864ac)
 
+## Please refer to the updated [repo](https://github.com/zhengye1995/kesci-2021-underwater-optics) for URPC 2021!!!
+
 ## Update 尝试过不work的内容：
 
 + 数据增强
